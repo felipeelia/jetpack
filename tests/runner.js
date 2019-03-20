@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 require( 'babel-register' )( {
-	ignore: /\/node_modules\/(?!@automattic\/dops-components\/)/
+	ignore: /\/node_modules\/(?!@automattic\/dops-components\/)/,
 } );
 
 const program = require( 'commander' ),
@@ -10,9 +10,9 @@ const program = require( 'commander' ),
 	boot = require( './boot-test' );
 
 program
-    .usage( '[options] [files]' )
-    .option( '-R, --reporter <name>', 'specify the reporter to use', 'spec' )
-    .option( '-g, --grep <pattern>', 'only run tests matching <pattern>' );
+	.usage( '[options] [files]' )
+	.option( '-R, --reporter <name>', 'specify the reporter to use', 'spec' )
+	.option( '-g, --grep <pattern>', 'only run tests matching <pattern>' );
 
 program.name = 'runner';
 
@@ -20,7 +20,7 @@ program.parse( process.argv );
 
 const mocha = new Mocha( {
 	ui: 'bdd',
-	reporter: program.reporter
+	reporter: program.reporter,
 } );
 
 if ( program.grep ) {
@@ -42,7 +42,7 @@ if ( program.args.length ) {
 
 		window.Initial_State = {
 			userData: {},
-			dismissedNotices: {}
+			dismissedNotices: {},
 		};
 
 		switch ( program.args[ 0 ] ) {

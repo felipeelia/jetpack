@@ -15,20 +15,27 @@
 		const markdownBody = document.querySelectorAll( '.markdown-body' )[ 0 ];
 		const branch = jQuery( '.head-ref:first' ).text();
 		const branchIsForked = branch.includes( ':' );
-		const branchIsMerged = $( '.gh-header-meta .State' ).text().trim() === 'Merged';
-		const isGutenbergPr = $( ".discussion-sidebar .sidebar-labels .labels a[title='Gutenberg']" ).length;
+		const branchIsMerged =
+			$( '.gh-header-meta .State' )
+				.text()
+				.trim() === 'Merged';
+		const isGutenbergPr = $( ".discussion-sidebar .sidebar-labels .labels a[title='Gutenberg']" )
+			.length;
 		const base = 'https://jurassic.ninja/create?';
-		const query = `jetpack-beta&branch=${ branch }&wp-debug-log${ isGutenbergPr ? '&gutenpack' : '' }`;
+		const query = `jetpack-beta&branch=${ branch }&wp-debug-log${
+			isGutenbergPr ? '&gutenpack' : ''
+		}`;
 		let link = base + query;
-		const canLiveTestText =
-			`<div id="jetpack-live-branches">
+		const canLiveTestText = `<div id="jetpack-live-branches">
 			<h2>Jetpack Live Branches</h2>
 			<p style="height:3em;" ><a id="jetpack-beta-branch-link" target="_blank" rel="nofollow noopener" href="${ link }">${ link }</a></p>
 			<ul>
 			<li class="task-list-item enabled"><input type="checkbox" name="shortlived" class="task-list-item-checkbox">Launch a shortlived site</li>
 			<li class="task-list-item enabled"><input type="checkbox" name="wp-debug-log" checked class="task-list-item-checkbox">Launch sites with WP_DEBUG and WP_DEBUG_LOG set to true</li>
 			<li class="task-list-item enabled"><input type="checkbox" name="gutenberg" class="task-list-item-checkbox">Launch with Gutenberg installed</li>
-			<li class="task-list-item enabled"><input type="checkbox" name="gutenpack" ${ isGutenbergPr ? 'checked' : '' } class="task-list-item-checkbox">Launch with built blocks</li>
+			<li class="task-list-item enabled"><input type="checkbox" name="gutenpack" ${
+				isGutenbergPr ? 'checked' : ''
+			} class="task-list-item-checkbox">Launch with built blocks</li>
 			<li class="task-list-item enabled"><input type="checkbox" name="wordpress-4" class="task-list-item-checkbox">Launch with latest WordPress 4.9 instead</li>
 			<li class="task-list-item enabled"><input type="checkbox" name="classic-editor" class="task-list-item-checkbox">Launch with Classic Editor plugin</li>
 			<li class="task-list-item enabled"><input type="checkbox" name="woocommerce" class="task-list-item-checkbox">Launch with WooCommerce installed</li>
@@ -40,7 +47,7 @@
 		const branchIsForkedText =
 			'<div id="jetpack-live-branches">' +
 			'<h2>Jetpack Live Branches</h2>' +
-			'<p><strong>This branch can\'t be tested live because it comes from a forked version of this repo.</p>' +
+			"<p><strong>This branch can't be tested live because it comes from a forked version of this repo.</p>" +
 			'</div>';
 		const branchIsMergedText =
 			'<div id="jetpack-live-branches">' +
@@ -59,7 +66,11 @@
 			const div = document.createElement( 'div' );
 			const $el = $( el );
 			$( div ).append( str );
-			$el.append( $( div ).children().get( 0 ) );
+			$el.append(
+				$( div )
+					.children()
+					.get( 0 )
+			);
 
 			$el.find( 'input[type=checkbox]' ).change( toggle );
 		}
@@ -72,15 +83,22 @@
 			const name = $this.attr( 'name' );
 			const checked = $this.is( ':checked' );
 
-			const query_array = $link.attr( 'href' ).split( '?' )[ 1 ].split( '&' );
+			const query_array = $link
+				.attr( 'href' )
+				.split( '?' )[ 1 ]
+				.split( '&' );
 
 			if ( checked ) {
 				query_array.push( name );
 				link = base + query_array.join( '&' );
 			} else {
-				link = base + query_array.filter( function( item ) {
-					return item !== name;
-				} ).join( '&' );
+				link =
+					base +
+					query_array
+						.filter( function( item ) {
+							return item !== name;
+						} )
+						.join( '&' );
 			}
 			$link.attr( 'href', link );
 			$link.text( link );

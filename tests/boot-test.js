@@ -14,5 +14,5 @@ module.exports = {
 		nock.cleanAll();
 		nock.enableNetConnect();
 		nock.restore();
-	}
+	},
 };
