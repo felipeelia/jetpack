@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+/* jshint ignore:start */
 /* eslint-disable no-console, no-process-exit */
 
 const execSync = require( 'child_process' ).execSync;
@@ -49,12 +50,8 @@ function phpcsFilesToFilter( file ) {
  * @param {String} file File name of js file modified.
  * @return {boolean}        If the file matches the whitelist.
  */
-function jsFilesToFilter( file ) {
-	if ( file.startsWith( '_inc/client/' ) && /\.jsx?$/.test( file ) ) {
-		return true;
-	}
-
-	return false;
+function filterJsFiles( file ) {
+	return [ '.js', '.json', '.jsx' ].some( extension => file.endsWith( extension ) );
 }
 
 const gitFiles = parseGitDiffToPathArray(
@@ -63,7 +60,7 @@ const gitFiles = parseGitDiffToPathArray(
 const dirtyFiles = parseGitDiffToPathArray( 'git diff --name-only --diff-filter=ACM' ).filter(
 	Boolean
 );
-const jsFiles = gitFiles.filter( jsFilesToFilter );
+const jsFiles = gitFiles.filter( filterJsFiles );
 const phpFiles = gitFiles.filter( name => name.endsWith( '.php' ) );
 const phpcsFiles = phpFiles.filter( phpcsFilesToFilter );
 
@@ -94,7 +91,7 @@ if ( toPrettify.length ) {
 }
 
 // linting should happen after formatting
-const toLint = jsFiles;
+const toLint = jsFiles.filter( file => ! file.endsWith( '.json' ) );
 if ( toLint.length ) {
 	const lintResult = spawnSync( './node_modules/.bin/eslint', [ '--quiet', ...toLint ], {
 		shell: true,
