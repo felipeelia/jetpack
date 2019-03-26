@@ -145,7 +145,7 @@
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "babel-eslint": "^9.0.0",
-    "babel-loader": "8.0.4",
+    "babel-loader": "8.0.5",
     "chai": "4.2.0",
     "commander": "2.19.0",
     "danger": "7.0.16",
